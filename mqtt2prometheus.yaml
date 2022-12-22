@@ -16,14 +16,12 @@ cache:
   # Set the timeout to -1 to disable the deletion of metrics from the cache. The exporter presents the ingest timestamp
   # to prometheus.
   timeout: 24h
-# This is a list of valid metrics. Only metrics listed here will be exported
 metrics:
-  # The name of the metric in prometheus
   - prom_name: sensor_temperature_celcius
     mqtt_name: tempc
     help: "Current Temperature in celcius"
     type: gauge
-    sensor_name_filter: "^A4C138.*$"
+    sensor_name_filter: "^A4C138.*$" # Xiaomi Thermometers all prefix their MACs with A4C138
   - prom_name: sensor_temperature_fahrenheit
     mqtt_name: tempf
     help: "Current Temperature in fahrenheit"

@@ -2,4 +2,7 @@ groups:
   - name: thermometer
     rules:
     - record: sensor_absolute_humidity_grams
+      # taken from https://carnotcycle.wordpress.com/2012/08/04/how-to-convert-relative-humidity-to-absolute-humidity/
+      # simplified with wolfram alpha
       expr: (264.943 * sensor_humidity_percent * 2.71828^((35.34 * sensor_temperature_celcius)/(2 * sensor_temperature_celcius + 487)))/(20 * sensor_temperature_celcius + 5463)
+
