@@ -1,0 +1,60 @@
+version: '3'
+
+volumes:
+  prometheus_data: {}
+  mqtt_data: {}
+
+services:
+  mqtt:
+    image: eclipse-mosquitto:2.0
+    restart: unless-stopped
+    volumes:
+      - mqtt_data:/mosquitto"
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    command: "mosquitto -c /mosquitto-no-auth.conf"
+
+  ble_gateway:
+    image: theengs/gateway
+    restart: unless-stopped
+    volumes: 
+      - /var/run/dbus:/var/run/dbus
+    environment:
+      MQTT_HOST: mqtt
+      PUBLISH_ALL: false
+      DISCOVERY: false
+      HAAS_DISCOVERY: false
+      SCANNING_MODE: active
+      LOG_LEVEL: INFO
+      DISCOVERY_FILTER: "[IBEACON,GAEN,MS-CDP]"
+    links:
+      - mqtt
+
+  mqtt2prometheus:
+    image: hikhvar/mqtt2prometheus
+    restart: unless-stopped
+    ports:
+      - 9641:9641
+    volumes:
+      - ./mqtt2prometheus.yaml:/config.yaml
+    links:
+      - mqtt
+
+  prometheus:
+    image: prom/prometheus
+    restart: unless-stopped
+    ports:
+      - 9090:9090
+    links:
+      - mqtt2prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus-rules.yml:/etc/prometheus/prometheus-rules.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+

@@ -1,0 +1,51 @@
+# Settings for the MQTT Client. Currently only these three are supported
+mqtt:
+  # The MQTT broker to connect to
+  server: tcp://mqtt:1883
+  # The Topic path to subscribe to. Be aware that you have to specify the wildcard.
+  topic_path: home/TheengsGateway/BTtoMQTT/+
+  # Optional: Regular expression to extract the device ID from the topic path. The default regular expression, assumes
+  # that the last "element" of the topic_path is the device id.
+  # The regular expression must contain a named capture group with the name deviceid
+  # For example the expression for tasamota based sensors is "tele/(?P<deviceid>.*)/.*"
+  # device_id_regex: "(.*/)?(?P<deviceid>.*)-.*"
+  # The MQTT QoS level
+  qos: 0
+cache:
+  # Timeout. Each received metric will be presented for this time if no update is send via MQTT.
+  # Set the timeout to -1 to disable the deletion of metrics from the cache. The exporter presents the ingest timestamp
+  # to prometheus.
+  timeout: 24h
+# This is a list of valid metrics. Only metrics listed here will be exported
+metrics:
+  # The name of the metric in prometheus
+  - prom_name: sensor_temperature_celcius
+    mqtt_name: tempc
+    help: "Current Temperature in celcius"
+    type: gauge
+    sensor_name_filter: "^A4C138.*$"
+  - prom_name: sensor_temperature_fahrenheit
+    mqtt_name: tempf
+    help: "Current Temperature in fahrenheit"
+    type: gauge
+    sensor_name_filter: "^A4C138.*$"
+  - prom_name: sensor_signal_dbm
+    mqtt_name: rssi
+    help: "Signal Strength in dBm"
+    type: gauge
+    sensor_name_filter: "^A4C138.*$"
+  - prom_name: sensor_humidity_percent
+    mqtt_name: hum
+    help: "Current Humidity in percent"
+    type: gauge
+    sensor_name_filter: "^A4C138.*$"
+  - prom_name: sensor_battery_percent
+    mqtt_name: batt
+    help: "Current Battery Status in percent"
+    type: gauge
+    sensor_name_filter: "^A4C138.*$"
+  - prom_name: sensor_battery_voltage
+    mqtt_name: volt
+    help: "Current Battery Voltage"
+    type: gauge
+    sensor_name_filter: "^A4C138.*$"

@@ -1,0 +1,5 @@
+groups:
+  - name: thermometer
+    rules:
+    - record: sensor_absolute_humidity_grams
+      expr: (264.943 * sensor_humidity_percent * 2.71828^((35.34 * sensor_temperature_celcius)/(2 * sensor_temperature_celcius + 487)))/(20 * sensor_temperature_celcius + 5463)
