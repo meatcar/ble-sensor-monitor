@@ -19,12 +19,12 @@ cache:
 metrics:
   - prom_name: sensor_temperature_celcius
     mqtt_name: tempc
-    help: "Current Temperature in celcius"
+    help: "Temperature in Celcius"
     type: gauge
     sensor_name_filter: "^A4C138.*$" # Xiaomi Thermometers all prefix their MACs with A4C138
   - prom_name: sensor_temperature_fahrenheit
     mqtt_name: tempf
-    help: "Current Temperature in fahrenheit"
+    help: "Temperature in Fahrenheit"
     type: gauge
     sensor_name_filter: "^A4C138.*$"
   - prom_name: sensor_signal_dbm
@@ -32,18 +32,18 @@ metrics:
     help: "Signal Strength in dBm"
     type: gauge
     sensor_name_filter: "^A4C138.*$"
-  - prom_name: sensor_humidity_percent
+  - prom_name: sensor_humidity_relative_percent
     mqtt_name: hum
-    help: "Current Humidity in percent"
+    help: "Relative Humidity in percent"
     type: gauge
     sensor_name_filter: "^A4C138.*$"
   - prom_name: sensor_battery_percent
     mqtt_name: batt
-    help: "Current Battery Status in percent"
+    help: "Battery in percent"
     type: gauge
     sensor_name_filter: "^A4C138.*$"
   - prom_name: sensor_battery_voltage
     mqtt_name: volt
-    help: "Current Battery Voltage"
+    help: "Battery Voltage"
     type: gauge
     sensor_name_filter: "^A4C138.*$"
